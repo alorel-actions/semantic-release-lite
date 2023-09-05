@@ -1,0 +1,16 @@
+# https://github.com/Ezard/semantic-prs
+
+enabled: true
+commitsOnly: true
+types:
+  - feat
+  - fix
+  - docs
+  - refactor
+  - build
+  - ci
+  - chore
+  - deps
+scopes:
+  - deps
+  - deps-dev

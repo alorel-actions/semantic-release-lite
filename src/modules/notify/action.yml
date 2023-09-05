@@ -1,0 +1,31 @@
+name: Semantic Release Lite Notify
+description: Notifies closed issues about a release
+inputs:
+  tag:
+    description: Tag that just got released
+    required: true
+  issues:
+    description: List of issue numbers separated by comma to notify
+    required: true
+  labels:
+    description: Labels to apply to released issues (1 per line)
+    default: Released
+    required: true
+  comment:
+    description: Comment to make
+    required: true
+    default: 'This issue has been included in [{{tag}}]({{releaseUrl}}) :tada:'
+  gh-token:
+    description: GitHub API token
+    required: true
+    default: ${{ github.token }}
+  error-on-ratelimit:
+    description: Error if the GitHub API token gits a rate limit
+    required: false
+    default: 'false'
+  error-on-out-of-sync:
+    description: "If we're behind/ahead of the remote, should the action skip notifications, but succeed (false) or fail with an error (true)?"
+    default: 'false'
+runs:
+  using: node20
+  main: notify.js

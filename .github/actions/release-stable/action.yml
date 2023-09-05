@@ -1,0 +1,70 @@
+name: Release stable
+description: Releases changes to the branch
+inputs:
+  changelog:
+    description: changelog
+    required: true
+  major:
+    required: true
+    description: major version
+  minor:
+    required: true
+    description: minor version
+  patch:
+    required: true
+    description: patch version
+  issues-closed:
+    description: Issues closed by the release
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+        path: release
+        ref: release
+
+    - working-directory: release
+      shell: bash
+      run: >
+        rm -rvf * &&
+        cp -vr ../dist/* . &&
+        git add . &&
+        git commit -m "Sync with ${{ github.sha }} of ${{ github.ref_name }}" &&
+        git push;
+
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        prerelease: false
+        generateReleaseNotes: false
+        makeLatest: false
+        commit: ${{ github.sha }}
+        body: ${{ inputs.changelog }}
+        tag: v${{ inputs.major }}
+
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        prerelease: false
+        generateReleaseNotes: false
+        makeLatest: false
+        commit: ${{ github.sha }}
+        body: ${{ inputs.changelog }}
+        tag: v${{ inputs.major }}.${{ inputs.minor }}
+
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: false
+        prerelease: false
+        generateReleaseNotes: false
+        commit: ${{ github.sha }}
+        body: ${{ inputs.changelog }}
+        tag: v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}
+
+    - name: Notify
+      if: ${{ inputs.issues-closed }}
+      uses: ./dist/notify
+      with:
+        tag: v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}
+        issues: ${{ inputs.issues-closed }}

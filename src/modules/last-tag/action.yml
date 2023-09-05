@@ -1,0 +1,5 @@
+name: 'Semantic Release Lite: Last tag'
+description: Gets the last release's tag, if any
+runs:
+  using: node20
+  main: last-tag.js

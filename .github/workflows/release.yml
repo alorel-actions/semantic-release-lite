@@ -1,0 +1,63 @@
+on:
+  push:
+    branches:
+      - master
+      - stable
+name: Release
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Release
+    permissions:
+      packages: read
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Build
+        uses: ./.github/actions/build
+
+      - uses: ./dist
+        name: Parse release
+        id: parse-release
+        with:
+          stay-at-zero: true
+          minor-types: |
+            feat: Features
+          patch-types: |
+            fix: Bug Fixes
+          trivial-types: |
+            chore: Maintenance
+            deps: Dependency updates
+            ci: CI & Build
+            build: CI & Build
+            refactor: Refactors
+            docs: Documentation
+
+      - name: Release
+        uses: ./.github/actions/release-stable
+        if: ${{ steps.parse-release.outputs.should-release && github.ref_name == 'stable' }}
+        with:
+          major: ${{ steps.parse-release.outputs.next-version-major }}
+          minor: ${{ steps.parse-release.outputs.next-version-minor }}
+          patch: ${{ steps.parse-release.outputs.next-version-patch }}
+          changelog: ${{ steps.parse-release.outputs.changelog }}
+          issues-closed: ${{ steps.parse-release.outputs.issues-closed }}
+
+      - name: Generate next tag
+        if: ${{ steps.parse-release.outputs.should-release && github.ref_name == 'master' }}
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          prerelease: true
+          generateReleaseNotes: false
+          makeLatest: false
+          updateOnlyUnreleased: true
+          name: Upcoming release
+          commit: ${{ github.sha }}
+          body: ${{ steps.parse-release.outputs.changelog }}
+          tag: next

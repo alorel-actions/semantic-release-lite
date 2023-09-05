@@ -1,0 +1,23 @@
+name: 'Semantic Release Lite: Generate changelog'
+description: Generates a changelog based on commit messages
+inputs:
+  breaking-change-keywords:
+    description: If the commit message extended body starts with one of these prefixes (one per line, case sensitive) then a breaking change release will be made
+    required: true
+    default: BREAKING CHANGE
+  minor-types:
+    description: Same as main action
+    required: false
+  patch-types:
+    description: Same as main action
+    required: false
+  trivial-types:
+    description: Same as main action
+    required: false
+  from:
+    description: "Commit to start from. Default: beginning of time."
+  until:
+    description: "Commit to stop at. Default: the commit that got checked out."
+runs:
+  using: node20
+  main: generate-changelog.js

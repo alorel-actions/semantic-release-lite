@@ -1,0 +1,10 @@
+node_modules/
+*.log
+/dist/
+/release/
+/.nyc_output
+/coverage
+
+/tmp.mjs
+/tmp.ts
+/tmp

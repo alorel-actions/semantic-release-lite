@@ -27,6 +27,8 @@ runs:
     - working-directory: release
       shell: bash
       run: >
+        git config user.email "semantic-release-lite-bot.vcnga@passmail.net" &&
+        git config user.name "Semantic Release Lite bot" &&
         rm -rvf * &&
         cp -vr ../dist/* . &&
         git add . &&

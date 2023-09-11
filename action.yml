@@ -1,0 +1,26 @@
+name: Semantic Release Lite
+description: Collects some data for a semantic release, no bulky dependencies
+inputs:
+  breaking-change-keywords:
+    description: If the commit message extended body starts with this prefix then a breaking change release will be made (case sensitive)
+    required: true
+    default: BREAKING CHANGE
+  minor-types:
+    description: |
+      Types that result in a minor version release. Format:
+      
+      type1: Heading in the changelog
+      type2: Heading in the changelog
+    required: false
+  patch-types:
+    description: Types that result in a patch version release. Same format as `minor-types`
+    required: false
+  trivial-types:
+    description: Types that are included in the changelog, but don't result in a version bump. Same format as `minor-types`.
+    required: false
+  stay-at-zero:
+    description: If we're currently at version 0.x (or no version at all) then this can be set to true to stay at version 0.x with our releases.
+    default: 'false'
+runs:
+  using: node20
+  main: release.js

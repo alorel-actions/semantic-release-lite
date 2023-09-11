@@ -35,13 +35,18 @@ runs:
         git commit -m "Sync with ${{ github.sha }} of ${{ github.ref_name }}" &&
         git push;
 
+    - shell: bash
+      working-directory: release
+      id: last-commit
+      run: echo "sha=$(git log -n 1 --pretty=format:%H)" >> $GITHUB_OUTPUT
+
     - uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
         prerelease: false
         generateReleaseNotes: false
         makeLatest: false
-        commit: ${{ github.sha }}
+        commit: ${{ steps.last-commit.outputs.sha }}
         body: ${{ inputs.changelog }}
         tag: v${{ inputs.major }}
 
@@ -51,7 +56,7 @@ runs:
         prerelease: false
         generateReleaseNotes: false
         makeLatest: false
-        commit: ${{ github.sha }}
+        commit: ${{ steps.last-commit.outputs.sha }}
         body: ${{ inputs.changelog }}
         tag: v${{ inputs.major }}.${{ inputs.minor }}
 
@@ -60,7 +65,7 @@ runs:
         allowUpdates: false
         prerelease: false
         generateReleaseNotes: false
-        commit: ${{ github.sha }}
+        commit: ${{ steps.last-commit.outputs.sha }}
         body: ${{ inputs.changelog }}
         tag: v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}
 

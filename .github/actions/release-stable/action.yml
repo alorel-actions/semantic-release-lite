@@ -31,6 +31,7 @@ runs:
         git config user.name "Semantic Release Lite bot" &&
         rm -rvf * &&
         cp -vr ../dist/* . &&
+        echo "v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}" > VERSION &&
         git add . &&
         git commit -m "Sync with ${{ github.sha }} of ${{ github.ref_name }}" &&
         git push;

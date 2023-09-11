@@ -48,7 +48,7 @@ runs:
         generateReleaseNotes: false
         makeLatest: false
         commit: ${{ steps.last-commit.outputs.sha }}
-        body: ${{ inputs.changelog }}
+        body: Alias for `v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}`
         tag: v${{ inputs.major }}
 
     - uses: ncipollo/release-action@v1
@@ -58,7 +58,7 @@ runs:
         generateReleaseNotes: false
         makeLatest: false
         commit: ${{ steps.last-commit.outputs.sha }}
-        body: ${{ inputs.changelog }}
+        body: Alias for `v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}`
         tag: v${{ inputs.major }}.${{ inputs.minor }}
 
     - uses: ncipollo/release-action@v1

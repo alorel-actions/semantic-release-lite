@@ -12,5 +12,9 @@ types:
   - chore
   - deps
 scopes:
-  - deps
-  - deps-dev
+  - dev
+  - generate-changelog
+  - last-tag
+  - next-tag
+  - notify
+  - core

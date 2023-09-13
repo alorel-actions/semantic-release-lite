@@ -5,7 +5,7 @@ import CommitParser from './lib/commit-parser.mjs';
 import {CommonConfig, commonConfigInit} from './lib/common-config.mjs';
 import InputMgr from './lib/input-mgr.mjs';
 import OutOfSyncError from './lib/sync-check.mjs';
-import {SemVer} from './lib/tag-parsing.mjs';
+import {SemVer} from './lib/semver.mjs';
 import TypesInputParser from './lib/types-input-parser.mjs';
 import {ReleaseOutputMgr, ReleaseOutputName} from './output-mgr.mjs';
 

@@ -6,5 +6,5 @@ node_modules/
 /coverage
 
 /tmp.mjs
-/tmp.ts
+/tmp.mts
 /tmp

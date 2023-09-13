@@ -1,6 +1,6 @@
 import {info} from '@actions/core';
 import OutputMgr from './lib/output-mgr.mjs';
-import {SemVer} from './lib/tag-parsing.mjs';
+import {SemVer} from './lib/semver.mjs';
 import {OutputGroup} from './lib/util-decorators.mjs';
 
 export const enum ReleaseOutputName {

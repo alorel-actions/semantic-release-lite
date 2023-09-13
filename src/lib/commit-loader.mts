@@ -1,7 +1,7 @@
 import {info} from '@actions/core';
 import {NULL_ITERATOR} from './consts.mjs';
 import {exec} from './exec.mjs';
-import {SemVer} from './tag-parsing.mjs';
+import {SemVer} from './semver.mjs';
 import {OutputGroup} from './util-decorators.mjs';
 
 export interface CommitMetadata {

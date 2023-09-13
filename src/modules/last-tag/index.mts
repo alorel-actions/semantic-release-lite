@@ -1,5 +1,5 @@
 import {info, isDebug, setFailed, setOutput} from '@actions/core';
-import {SemVer} from '../../lib/tag-parsing.mjs';
+import {SemVer} from '../../lib/semver.mjs';
 import {ReleaseOutputName} from '../../output-mgr.mjs';
 
 (async function getLastTag() {

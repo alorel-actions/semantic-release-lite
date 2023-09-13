@@ -5,7 +5,7 @@ import CommitParser from './commit-parser.mjs';
 import {CommonConfig} from './common-config.mjs';
 import {Numbers, Strings} from './consts.mjs';
 import {LazyMap} from './lazy-map.mjs';
-import {SemVer} from './tag-parsing.mjs';
+import {SemVer} from './semver.mjs';
 import TypesInputParser from './types-input-parser.mjs';
 import {OutputGroup} from './util-decorators.mjs';
 

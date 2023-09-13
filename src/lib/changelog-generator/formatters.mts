@@ -1,6 +1,6 @@
 import {kebabCase} from 'lodash-es';
 import {ChangelogGeneratorStrings as Strings} from '../changelog-generator.mjs';
-import type {SemVer} from '../tag-parsing.mjs';
+import type {SemVer} from '../semver.mjs';
 
 type Commit = import('../types-input-parser.mjs').default.Commit;
 type HeadingData = import('../types-input-parser.mjs').default.HeadingData;

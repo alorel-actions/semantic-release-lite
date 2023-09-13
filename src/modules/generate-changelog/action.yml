@@ -14,6 +14,11 @@ inputs:
   trivial-types:
     description: Same as main action
     required: false
+  last-tag:
+    description: Last tag we released
+  stay-at-zero:
+    description: If we're currently at version 0.x (or no version at all) then this can be set to true to stay at version 0.x with our releases.
+    default: 'false'
   from:
     description: "Commit to start from. Default: beginning of time."
   until:

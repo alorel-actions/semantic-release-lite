@@ -1,0 +1,18 @@
+name: Get changelog source
+description: Magic voodoo to generate the correct changelog
+outputs:
+  sha:
+    description: Resolved commit SHA
+    value: ${{ steps.msg.outputs.msg }}
+runs:
+  using: composite
+  steps:
+    - uses: ./dist/last-tag
+      id: last-tag
+    - shell: bash
+      id: msg
+      if: ${{ steps.last-tag.outputs.last-tag }}
+      run: echo "msg=$(git log -1 --pretty=format:%B '${{ steps.last-tag.outputs.last-tag }}' | grep -o -E '[0-9a-f]{40}' | awk 'NR==1{print $1}')" >> $GITHUB_OUTPUT
+    - shell: bash
+      if: ${{ steps.last-tag.outputs.last-tag && !steps.msg.outputs.msg }}
+      run: exit 1

@@ -32,6 +32,7 @@
     "src/index.mts",
     "src/modules/generate-changelog/index.mts",
     "src/modules/last-tag/index.mts",
+    "src/modules/next-tag/index.mts",
     "src/modules/notify/index.mts"
   ]
 }

@@ -131,6 +131,22 @@ Inputs: none
 
 Outputs: `last-tag`, if resolved.
 
+# Resolve the next tag to release
+
+Lives under `/next-tag`. Generates the next tag based on the previous released version and a release type.
+
+## Inputs
+
+| Key            | Required           | Default | Description                                            |
+|----------------|--------------------|---------|--------------------------------------------------------|
+| `last-tag`     | :x:                |         | The last tag that got released                         |
+| `release-type` | :heavy_check_mark: |         | The type of release to make: `major`, `minor`, `patch` |
+| `stay-at-zero` | :x:                | `false` | Same as primary action                                 |
+
+## Outputs
+
+`tag` with the full tag and `major`, `minor`, `patch` with the broken down segments.
+
 # Example workflows
 
 <details>

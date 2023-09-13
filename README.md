@@ -112,12 +112,13 @@ Take a commit range in, spit a changelog out.
 
 ## Inputs
 
-Same as primary action: `breaking-change-keywords`, `minor-types`, `patch-types`, `trivial-types`
+Same as primary action: `breaking-change-keywords`, `minor-types`, `patch-types`, `trivial-types`, `stay-at-zero`.
 
-| Key     | Required | Default                   | Description                                                                |
-|---------|----------|---------------------------|----------------------------------------------------------------------------|
-| `from`  | :x:      | The beginning of all time | Commit/tag to start from. The lefthand side of a `git log xx..yy` command. |
-| `until` | :x:      | `HEAD`                    | Commit/tag to end at. The righthand side of a `git log xx..yy` command.    |
+| Key        | Required | Default                   | Description                                                                |
+|------------|----------|---------------------------|----------------------------------------------------------------------------|
+| `from`     | :x:      | The beginning of all time | Commit/tag to start from. The lefthand side of a `git log xx..yy` command. |
+| `last-tag` | :x:      |                           | The last tag that got released, if any                                     |
+| `until`    | :x:      | `HEAD`                    | Commit/tag to end at. The righthand side of a `git log xx..yy` command.    |
 
 ## Outputs
 

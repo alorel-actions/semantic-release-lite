@@ -1,15 +1,18 @@
-import {debug, setFailed} from '@actions/core';
+import {debug, getInput, setFailed} from '@actions/core';
 import ChangelogGenerator from '../../lib/changelog-generator.mjs';
 import CommitLoader from '../../lib/commit-loader.mjs';
 import CommitParser from '../../lib/commit-parser.mjs';
 import type {CommonConfig} from '../../lib/common-config.mjs';
 import {commonConfigInit} from '../../lib/common-config.mjs';
-import InputMgr, {InputMgrInit} from '../../lib/input-mgr.mjs';
+import InputMgr from '../../lib/input-mgr.mjs';
+import {SemVer} from '../../lib/semver.mjs';
 import OutOfSyncError from '../../lib/sync-check.mjs';
 import TypesInputParser from '../../lib/types-input-parser.mjs';
 import {GenChangelogOutput, GenChangelogOutputMgr} from './output-mgr.mjs';
 
-interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'minor-types' | 'patch-types' | 'trivial-types'> {
+interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'minor-types' | 'patch-types' | 'trivial-types' | 'stay-at-zero'> {
+  'last-tag'?: SemVer;
+
   from?: string;
 
   until?: string;
@@ -17,12 +20,16 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
 
 (async function semanticReleaseLiteChangelogGeneratorAction() {
   const typeInpParser = new TypesInputParser<Inputs>();
-  const commonCfgInit = commonConfigInit(typeInpParser) as Partial<InputMgrInit<CommonConfig>>;
-  delete commonCfgInit['stay-at-zero'];
 
   const inputs = new InputMgr<Inputs>({
-    ...commonCfgInit as InputMgrInit<CommonConfig>,
+    ...commonConfigInit(typeInpParser),
     from: String,
+    'last-tag'() {
+      const t = getInput('last-tag');
+      if (t) {
+        return SemVer.parse(t);
+      }
+    },
     until: String,
   });
   inputs.load();
@@ -34,14 +41,7 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
   output.set(GenChangelogOutput.CommitCount, loader.totalCount);
   output.set(GenChangelogOutput.RelevantCommitCount, loader.relevantCount);
 
-  const commonInputs: CommonConfig = {
-    'breaking-change-keywords': inputs['breaking-change-keywords'],
-    'minor-types': inputs['minor-types'],
-    'patch-types': inputs['patch-types'],
-    'stay-at-zero': false,
-    'trivial-types': inputs['trivial-types'],
-  };
-  const parser = new CommitParser(loader, typeInpParser, commonInputs);
+  const parser = new CommitParser(loader, typeInpParser, inputs);
   parser.parse();
   output.set(GenChangelogOutput.ReleaseType, parser.releaseType);
   if (parser.hasIssuesClosed) {
@@ -50,8 +50,8 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
     debug('No issues closed');
   }
 
-  const changelogGen = new ChangelogGenerator(parser, typeInpParser, commonInputs);
-  await changelogGen.generate();
+  const changelogGen = new ChangelogGenerator(parser, typeInpParser, inputs);
+  await changelogGen.generate(inputs['last-tag']);
   output.set(GenChangelogOutput.Changelog, changelogGen.result);
 
   try {

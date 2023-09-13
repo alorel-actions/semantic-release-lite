@@ -4,6 +4,9 @@ outputs:
   sha:
     description: Resolved commit SHA
     value: ${{ steps.msg.outputs.msg }}
+  tag:
+    description: The tag
+    value: ${{ steps.last-tag.outputs.last-tag }}
 runs:
   using: composite
   steps:

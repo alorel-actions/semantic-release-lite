@@ -29,6 +29,8 @@ jobs:
         uses: ./dist/generate-changelog
         id: changelog
         with:
+          last-tag: ${{ steps.changelog-src.outputs.tag }}
+          stay-at-zero: true
           minor-types: |
             feat: Features
           patch-types: |

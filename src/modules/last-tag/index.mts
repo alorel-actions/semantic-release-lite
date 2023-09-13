@@ -1,12 +1,16 @@
-import {info, isDebug, setFailed, setOutput} from '@actions/core';
+import {info, isDebug, setFailed} from '@actions/core';
+import OutputMgr from '../../lib/output-mgr.mjs';
 import {SemVer} from '../../lib/semver.mjs';
 import {ReleaseOutputName} from '../../output-mgr.mjs';
+import Valueify = OutputMgr.Valueify;
 
 (async function getLastTag() {
   const lastTag = await SemVer.resolveLastRelease();
   if (lastTag) {
-    info(`Last tag resolved to ${lastTag}`);
-    setOutput(ReleaseOutputName.LastTag, lastTag);
+    new OutputMgr<ReleaseOutputName, Valueify<ReleaseOutputName>>()
+      .set(ReleaseOutputName.LastTag, lastTag.toString())
+      .log()
+      .flush();
   } else {
     info('No release tags found');
   }

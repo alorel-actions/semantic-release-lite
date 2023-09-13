@@ -3,6 +3,23 @@ A semantic release group of actions action for generating the next release versi
 
 Still very much a v0.x beta.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Assumptions](#assumptions)
+- [Primary action](#primary-action)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
+- [Notify issues on release](#notify-issues-on-release)
+  - [Inputs](#inputs-1)
+- [Plain old changelog generator](#plain-old-changelog-generator)
+  - [Inputs](#inputs-2)
+  - [Outputs](#outputs-1)
+- [Resolve the last released tag](#resolve-the-last-released-tag)
+- [Example workflows](#example-workflows)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Assumptions
 
 1. You have no diverging version trees. The version can only ever keep going up - if you release an update in v2.x you cannot use this action to release a for v1.x.

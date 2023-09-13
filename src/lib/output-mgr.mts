@@ -49,7 +49,7 @@ class OutputMgr<O extends Ext, Def extends OutputMgr.Valueify<Ext>, Ext extends 
     return this;
   }
 
-  public set<K extends Ext>(name: K, value: SettableValue<Def[K]> | undefined | null): void {
+  public set<K extends Ext>(name: K, value: SettableValue<Def[K]> | undefined | null): this {
     if (value == null || value === false || value === '') {
       debug(`Removing output ${name} from method arg \`${String(value)}\``);
       this.#buffer.delete(name);
@@ -57,6 +57,8 @@ class OutputMgr<O extends Ext, Def extends OutputMgr.Valueify<Ext>, Ext extends 
       debug(`Setting output ${name} to method arg \`${String(value)}\``);
       this.#buffer.set(name, value);
     }
+
+    return this;
   }
 
   protected logOne(name: Ext, value: Value): void {

@@ -1,0 +1,14 @@
+name: 'Semantic Release Lite: next tag'
+description: Get the next tag to release based on previous data
+inputs:
+  last-tag:
+    description: The last tag we released
+  release-type:
+    description: Type of release we're doing
+    required: true
+  stay-at-zero:
+    description: Same as primary action
+    default: 'false'
+runs:
+  using: node20
+  main: next-tag.js

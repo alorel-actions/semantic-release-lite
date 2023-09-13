@@ -6,11 +6,15 @@ export const enum GenChangelogOutput {
   CommitCount = 'commit-count',
   IssuesClosed = 'issues-closed',
   RelevantCommitCount = 'relevant-commit-count',
+  InSync = 'in-sync',
+  ShouldRelease = 'should-release',
 }
 
 type Numerics = GenChangelogOutput.CommitCount | GenChangelogOutput.RelevantCommitCount;
-type NonStrings = Numerics;
-type TypeMap = Record<Exclude<GenChangelogOutput, NonStrings>, string> & Record<Numerics, number>;
+type Booleans = GenChangelogOutput.InSync | GenChangelogOutput.ShouldRelease;
+type NonStrings = Numerics | Booleans;
+type TypeMap = Record<Exclude<GenChangelogOutput, NonStrings>, string>
+  & Record<Numerics, number> & Record<Booleans, boolean>;
 
 const mgr = OutputMgr as typeof OutputMgr<GenChangelogOutput, TypeMap>;
 

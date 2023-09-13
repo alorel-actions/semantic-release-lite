@@ -121,7 +121,7 @@ Same as primary action: `breaking-change-keywords`, `minor-types`, `patch-types`
 
 ## Outputs
 
-Same as primary action: `changelog`, `release-type`, `commit-count`, `relevant-commit-count`, `issues-closed`
+Same as primary action: `changelog`, `release-type`, `commit-count`, `relevant-commit-count`, `issues-closed`, `in-sync`, `should-release`
 
 # Resolve the last released tag
 

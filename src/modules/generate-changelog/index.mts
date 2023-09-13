@@ -5,6 +5,7 @@ import CommitParser from '../../lib/commit-parser.mjs';
 import type {CommonConfig} from '../../lib/common-config.mjs';
 import {commonConfigInit} from '../../lib/common-config.mjs';
 import InputMgr, {InputMgrInit} from '../../lib/input-mgr.mjs';
+import OutOfSyncError from '../../lib/sync-check.mjs';
 import TypesInputParser from '../../lib/types-input-parser.mjs';
 import {GenChangelogOutput, GenChangelogOutputMgr} from './output-mgr.mjs';
 
@@ -52,6 +53,17 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
   const changelogGen = new ChangelogGenerator(parser, typeInpParser, commonInputs);
   await changelogGen.generate();
   output.set(GenChangelogOutput.Changelog, changelogGen.result);
+
+  try {
+    await OutOfSyncError.check();
+    output.set(GenChangelogOutput.InSync, true);
+  } catch {
+    // out of sync
+  }
+
+  if (parser.releaseType && output.has(GenChangelogOutput.InSync)) {
+    output.set(GenChangelogOutput.ShouldRelease, true);
+  }
 
   output.log().flush();
 })().catch((e: Error) => {

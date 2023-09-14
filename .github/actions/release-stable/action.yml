@@ -24,22 +24,48 @@ runs:
         path: release
         ref: release
 
-    - working-directory: release
-      shell: bash
+    - shell: bash
+      working-directory: release
       run: >
         git config user.email "semantic-release-lite-bot.vcnga@passmail.net" &&
-        git config user.name "Semantic Release Lite bot" &&
-        rm -rvf * &&
-        cp -vr ../dist/* . &&
-        echo "v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}" > VERSION &&
-        git add . &&
-        git commit -m "Sync with ${{ github.sha }} of ${{ github.ref_name }}" &&
-        git push;
+        git config user.name "Semantic Release Lite bot"
+
+    - shell: bash
+      working-directory: release
+      run: rm -rvf * && cp -vr ../dist/* . && echo "v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}" > VERSION
+
+    - shell: bash
+      working-directory: release
+      run: git add .
+
+    - shell: bash
+      working-directory: release
+      run: git commit -m "Sync with ${{ github.sha }}"
 
     - shell: bash
       working-directory: release
       id: last-commit
       run: echo "sha=$(git log -n 1 --pretty=format:%H)" >> $GITHUB_OUTPUT
+
+    - shell: bash
+      working-directory: release
+      run: git tag -m "Sync with ${{ github.sha }}" v${{ inputs.major }} --force
+
+    - shell: bash
+      working-directory: release
+      run: git tag -m "Sync with ${{ github.sha }}" v${{ inputs.major }}.${{ inputs.minor }} --force
+
+    - shell: bash
+      working-directory: release
+      run: git tag -m "Sync with ${{ github.sha }}" v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}
+
+    - shell: bash
+      working-directory: release
+      run: git push
+
+    - shell: bash
+      working-directory: release
+      run: git push --tags --force
 
     - uses: ncipollo/release-action@v1
       with:

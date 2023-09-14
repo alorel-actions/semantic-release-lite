@@ -49,7 +49,7 @@ jobs:
         id: next-tag
         if: ${{ steps.changelog.outputs.should-release }}
         with:
-          last-tag: ${{ steps.last-tag.outputs.last-tag }}
+          last-tag: ${{ steps.changelog-src.outputs.tag }}
           release-type: ${{ steps.changelog.outputs.release-type }}
           stay-at-zero: true
 
@@ -63,16 +63,8 @@ jobs:
           changelog: ${{ steps.changelog.outputs.changelog }}
           issues-closed: ${{ steps.changelog.outputs.issues-closed }}
 
-      - name: Generate next tag
+      - name: Prerelease
         if: ${{ steps.changelog.outputs.should-release && github.ref_name == 'master' }}
-        uses: ncipollo/release-action@v1
+        uses: ./.github/actions/prerelease
         with:
-          allowUpdates: true
-          prerelease: true
-          generateReleaseNotes: false
-          makeLatest: false
-          updateOnlyUnreleased: true
-          name: Upcoming release
-          commit: ${{ github.sha }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          tag: next
+          changelog: ${{ steps.changelog.outputs.changelog }}

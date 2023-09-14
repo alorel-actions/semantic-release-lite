@@ -1,0 +1,32 @@
+name: Prerelease
+description: Refreshes the `next` tag
+inputs:
+  changelog:
+    description: changelog
+    required: true
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: git tag --force -m "Update with ${{ github.sha }}" next
+
+    - shell: bash
+      working-directory: release
+      run: git push --tags --force
+
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        prerelease: true
+        generateReleaseNotes: false
+        makeLatest: false
+        updateOnlyUnreleased: true
+        name: Upcoming release
+        commit: ${{ github.sha }}
+        body: |
+          This tag is merely a changelog preview and should not be used in your actions :exclamation:
+          
+          -----
+          
+          ${{ inputs.changelog }}
+        tag: next

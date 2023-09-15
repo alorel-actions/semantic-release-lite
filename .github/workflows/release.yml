@@ -1,8 +1,6 @@
 on:
   push:
-    branches:
-      - master
-      - stable
+    branches: [stable]
 name: Release
 jobs:
   release:
@@ -55,16 +53,10 @@ jobs:
 
       - name: Release
         uses: ./.github/actions/release-stable
-        if: ${{ steps.changelog.outputs.should-release && github.ref_name == 'stable' }}
+        if: ${{ steps.changelog.outputs.should-release }}
         with:
           major: ${{ steps.next-tag.outputs.major }}
           minor: ${{ steps.next-tag.outputs.minor }}
           patch: ${{ steps.next-tag.outputs.patch }}
           changelog: ${{ steps.changelog.outputs.changelog }}
           issues-closed: ${{ steps.changelog.outputs.issues-closed }}
-
-      - name: Prerelease
-        if: ${{ steps.changelog.outputs.should-release && github.ref_name == 'master' }}
-        uses: ./.github/actions/prerelease
-        with:
-          changelog: ${{ steps.changelog.outputs.changelog }}

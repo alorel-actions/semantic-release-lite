@@ -26,7 +26,7 @@ export default class CommitLoader implements IterableWithIterableIterator<OptRea
 
   public constructor(from?: SemVer | string | null, until?: SemVer | string | null) {
     if (from) {
-      this.#ref = ` ${from}..${until ?? 'HEAD'}`;
+      this.#ref = ` ${from}..${until || 'HEAD'}`;
     } else if (until) {
       this.#ref = ` ${until}^..HEAD`;
     } else {

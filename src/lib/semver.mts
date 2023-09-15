@@ -95,10 +95,13 @@ class SemVer {
         } else {
           notice(`stay-at-zero has no effect as we're already on version ${this}`);
           ++this.major;
+          this.minor = 0;
         }
+        this.patch = 0;
         break;
       case ReleaseType.Minor:
         ++this.minor;
+        this.patch = 0;
         break;
       case ReleaseType.Patch:
         ++this.patch;

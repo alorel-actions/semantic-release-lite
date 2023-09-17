@@ -1,6 +1,8 @@
 on:
   push:
-    branches: [stable]
+    branches:
+      - stable
+      - master
   pull_request:
     branches: ['**']
 name: Release

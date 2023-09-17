@@ -181,7 +181,7 @@ jobs:
           fetch-depth: 0 # need to fetch the whole history
           fetch-tags: true # needed to know what the previous release was
           
-      - uses: Alorel/semantic-release-lite@v0
+      - uses: alorel-actions/semantic-release-lite@v0
         id: parse-release
         with:
           minor-types: "feat: Features"
@@ -197,7 +197,7 @@ jobs:
       - run: whatever you need to do for your release
         if: ${{ steps.parse-release.outputs.should-release }}  
 
-      - uses: Alorel/semantic-release-lite/notify@v0
+      - uses: alorel-actions/semantic-release-lite/notify@v0
         if: ${{ steps.parse-release.outputs.should-release && steps.parse-release.outputs.issues-closed }}
         with:
           tag: ${{ steps.parse-release.outputs.next-version }}
@@ -224,7 +224,7 @@ jobs:
           fetch-depth: 0 # need to fetch the whole history
           fetch-tags: true # needed to know what the previous release was
       
-      - uses: Alorel/semantic-release-lite/generate-changelog@v0
+      - uses: alorel-actions/semantic-release-lite/generate-changelog@v0
         id: changelog
         with:
           from: master

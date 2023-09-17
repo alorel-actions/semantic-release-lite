@@ -1,5 +1,5 @@
 export enum Strings {
-  Signature = '\\- Your friendly neighbourhood [:robot: semantic release bot](https://github.com/Alorel/semantic-release-lite)',
+  Signature = '\\- Your friendly neighbourhood [:robot: semantic release bot](https://github.com/alorel-actions/semantic-release-lite)',
 }
 
 export const enum Numbers {

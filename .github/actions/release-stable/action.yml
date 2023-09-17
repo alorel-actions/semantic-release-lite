@@ -27,8 +27,8 @@ runs:
     - shell: bash
       working-directory: release
       run: >
-        git config user.email "semantic-release-lite-bot.vcnga@passmail.net" &&
-        git config user.name "Semantic Release Lite bot"
+        git config user.email "github-actions[bot]@users.noreply.github.com" &&
+        git config user.name "github-actions[bot]"
 
     - shell: bash
       working-directory: release

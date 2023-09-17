@@ -8,6 +8,8 @@ import {RatelimitTracker} from './ratelimit-tracker.mjs';
 export interface NotifyInputs {
   comment: string;
 
+  'allow-out-of-sync': boolean;
+
   'error-on-out-of-sync': boolean;
 
   'error-on-ratelimit': boolean;
@@ -24,6 +26,7 @@ export interface NotifyInputs {
 (async function notifyAction(): Promise<any> {
   const inputs = new InputMgr<NotifyInputs>({
     comment: [String, {required: true}],
+    'allow-out-of-sync': Boolean,
     'error-on-ratelimit': Boolean,
     'error-on-out-of-sync': Boolean,
     'gh-token': [String, {required: true}],
@@ -54,9 +57,13 @@ export interface NotifyInputs {
   } catch (e) {
     const msg = (e as OutOfSyncError).message;
 
-    return inputs['error-on-out-of-sync']
-      ? setFailed(msg)
-      : warning(`${msg} Skipping the step.`);
+    if (inputs['error-on-out-of-sync']) {
+      return setFailed(msg);
+    } else if (inputs['allow-out-of-sync']) {
+      warning(msg);
+    } else {
+      return warning(`${msg} Skipping the step.`);
+    }
   }
 
   const rateLimiter = new RatelimitTracker();

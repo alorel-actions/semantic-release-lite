@@ -31,7 +31,7 @@ class ChangelogGenerator {
 
   public constructor(
     commits: CommitParser,
-    typeInputs: TypesInputParser<any>,
+    typeInputs: Pick<TypesInputParser<any>, 'typeHeadingMap'>,
     cfg: Readonly<CommonConfig>
   ) {
     this.#typeHeadingMap = typeInputs.typeHeadingMap;

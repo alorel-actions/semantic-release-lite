@@ -29,7 +29,7 @@ class CommitParser {
 
   public constructor(
     loader: CommitLoader,
-    typeInputs: TypesInputParser<any>,
+    typeInputs: Pick<TypesInputParser<any>, 'typeHeadingMap'>,
     cfg: Readonly<CommonConfig>
   ) {
     this.#typeHeadingMap = typeInputs.typeHeadingMap;

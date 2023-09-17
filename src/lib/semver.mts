@@ -86,6 +86,16 @@ class SemVer {
     this.#patch = value;
   }
 
+  public computeReleaseType(lastTag: SemVer = new SemVer(0, 0, 0)): ReleaseType | undefined {
+    if (this.major > lastTag.major) {
+      return ReleaseType.Major;
+    } else if (this.minor > lastTag.minor) {
+      return ReleaseType.Minor;
+    } else if (this.patch > lastTag.patch) {
+      return ReleaseType.Patch;
+    }
+  }
+
   public increment(releaseType: ReleaseType, stayAtZero = false): this {
     switch (releaseType) {
       case ReleaseType.Major:
@@ -100,7 +110,12 @@ class SemVer {
         this.patch = 0;
         break;
       case ReleaseType.Minor:
-        ++this.minor;
+        if (this.major === 0 && !stayAtZero) {
+          this.major = 1;
+          this.minor = 0;
+        } else {
+          ++this.minor;
+        }
         this.patch = 0;
         break;
       case ReleaseType.Patch:

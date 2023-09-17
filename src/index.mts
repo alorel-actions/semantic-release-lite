@@ -26,7 +26,6 @@ import {ReleaseOutputMgr, ReleaseOutputName} from './output-mgr.mjs';
 
   const parser = new CommitParser(loader, typeInpParser, inputs);
   parser.parse();
-  output.set(ReleaseOutputName.ReleaseType, parser.releaseType);
   if (parser.hasIssuesClosed) {
     output.set(ReleaseOutputName.IssuesClosed, [...parser.issuesClosed()].join(','));
   } else {
@@ -35,6 +34,7 @@ import {ReleaseOutputMgr, ReleaseOutputName} from './output-mgr.mjs';
 
   const changelogGen = new ChangelogGenerator(parser, typeInpParser, inputs);
   await changelogGen.generate(lastTag);
+  output.set(ReleaseOutputName.ReleaseType, changelogGen.nextVersion.computeReleaseType(lastTag));
   output.set(ReleaseOutputName.NextVersion, changelogGen.nextVersion.toString());
   output.set(ReleaseOutputName.Changelog, changelogGen.result);
 

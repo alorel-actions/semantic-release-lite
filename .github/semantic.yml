@@ -17,4 +17,5 @@ scopes:
   - last-tag
   - next-tag
   - notify
+  - sync-check
   - core

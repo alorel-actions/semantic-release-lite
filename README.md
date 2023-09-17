@@ -16,6 +16,10 @@ Still very much a v0.x beta.
   - [Inputs](#inputs-2)
   - [Outputs](#outputs-1)
 - [Resolve the last released tag](#resolve-the-last-released-tag)
+- [Resolve the next tag to release](#resolve-the-next-tag-to-release)
+  - [Inputs](#inputs-3)
+  - [Outputs](#outputs-2)
+- [Check if the local branch is in sync with the remote](#check-if-the-local-branch-is-in-sync-with-the-remote)
 - [Example workflows](#example-workflows)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -147,6 +151,10 @@ Lives under `/next-tag`. Generates the next tag based on the previous released v
 ## Outputs
 
 `tag` with the full tag and `major`, `minor`, `patch` with the broken down segments.
+
+# Check if the local branch is in sync with the remote
+
+Lives under `/sync-check`. No inputs, one output: `in-sync`; gets set to true if we're still in sync. 
 
 # Example workflows
 

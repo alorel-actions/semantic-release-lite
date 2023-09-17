@@ -19,7 +19,10 @@ class TypesInputParser<T> {
     return () => this.parseInput(inputName);
   }
 
-  /** Parse an input with the given name */
+  /**
+   * Parse an input with the given name
+   * @return The types we detected
+   */
   public parseInput(name: string & TypedKeys<T, Set<string>>): Set<string> {
     const regex = /^\s*([^:]+):\s*([^\n]+)$/;
     const out = new Set<string>();

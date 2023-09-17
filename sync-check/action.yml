@@ -1,0 +1,5 @@
+name: 'Semantic Release Lite: Sync Check'
+description: Checks if we're still in sync with the remote repo
+runs:
+  using: node20
+  main: sync-check.js

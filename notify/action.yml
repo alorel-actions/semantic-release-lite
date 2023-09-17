@@ -4,6 +4,10 @@ inputs:
   tag:
     description: Tag that just got released
     required: true
+  allow-out-of-sync:
+    description: Continue with notifications even if we're out of sync with the remote. Takes precedence over `error-on-ratelimit`.
+    default: 'false'
+    required: true
   issues:
     description: List of issue numbers separated by comma to notify
     required: true
@@ -20,7 +24,7 @@ inputs:
     required: true
     default: ${{ github.token }}
   error-on-ratelimit:
-    description: Error if the GitHub API token gits a rate limit
+    description: Fail the step if the GitHub API token gits a rate limit instead of just printing a warning.
     required: false
     default: 'false'
   error-on-out-of-sync:

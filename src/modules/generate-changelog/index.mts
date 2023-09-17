@@ -43,7 +43,6 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
 
   const parser = new CommitParser(loader, typeInpParser, inputs);
   parser.parse();
-  output.set(GenChangelogOutput.ReleaseType, parser.releaseType);
   if (parser.hasIssuesClosed) {
     output.set(GenChangelogOutput.IssuesClosed, [...parser.issuesClosed()].join(','));
   } else {
@@ -52,6 +51,7 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
 
   const changelogGen = new ChangelogGenerator(parser, typeInpParser, inputs);
   await changelogGen.generate(inputs['last-tag']);
+  output.set(GenChangelogOutput.ReleaseType, changelogGen.nextVersion.computeReleaseType(inputs['last-tag']));
   output.set(GenChangelogOutput.Changelog, changelogGen.result);
 
   try {
@@ -61,7 +61,7 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
     // out of sync
   }
 
-  if (parser.releaseType && output.has(GenChangelogOutput.InSync)) {
+  if (output.get(GenChangelogOutput.ReleaseType) && output.has(GenChangelogOutput.InSync)) {
     output.set(GenChangelogOutput.ShouldRelease, true);
   }
 

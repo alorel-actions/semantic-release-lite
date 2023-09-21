@@ -18,14 +18,13 @@ class SemVer {
     this.#patch = fmtNum(patch);
   }
 
-  public static cmp(a: SemVer | undefined, b: SemVer | undefined): 1 | 0 | -1 {
-    if (a == null) {
-      return b == null ? 0 : -1;
-    } else if (b == null) {
-      return -1;
-    }
-
-    return cmpNum(a.major, b.major) ?? cmpNum(a.#minor, b.#minor) ?? cmpNum(a.#patch, b.#patch) ?? 0;
+  /** Sorts in descending order, i.e. a higher version will come before a lower version */
+  public static cmp(a: SemVer, b: SemVer): 1 | 0 | -1 {
+    return cmpNum(a.major, b.major)
+      ?? cmpNum(a.#minor, b.#minor)
+      ?? cmpNum(a.#patch, b.#patch)
+      ?? cmpPrefixed(a.prefixed, b.prefixed)
+      ?? 0;
   }
 
   public static parse(from: string, allowStrippingVPrefix = false): SemVer | undefined {
@@ -172,6 +171,14 @@ function isNotNullish<T>(v: T | null | undefined): v is Exclude<T, null | undefi
 function fmtNum(num: number | string | undefined): number | undefined {
   if (num != null) {
     return isNaN(num as any) ? 0 : Number(num);
+  }
+}
+
+function cmpPrefixed(a: boolean, b: boolean): 1 | -1 | undefined {
+  if (a && !b) {
+    return -1;
+  } else if (!a && b) {
+    return 1;
   }
 }
 

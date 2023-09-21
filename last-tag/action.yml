@@ -1,5 +1,10 @@
 name: 'Semantic Release Lite: Last tag'
 description: Gets the last release's tag, if any
+inputs:
+  after:
+    description: If specified, the last tag must come after this tag sorted by semantic version.
+  before:
+    description: If specified, the last tag must come before this tag sorted by semantic version.
 runs:
   using: node20
   main: last-tag.js

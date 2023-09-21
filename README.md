@@ -16,9 +16,11 @@ Still very much a v0.x beta.
   - [Inputs](#inputs-2)
   - [Outputs](#outputs-1)
 - [Resolve the last released tag](#resolve-the-last-released-tag)
-- [Resolve the next tag to release](#resolve-the-next-tag-to-release)
   - [Inputs](#inputs-3)
   - [Outputs](#outputs-2)
+- [Resolve the next tag to release](#resolve-the-next-tag-to-release)
+  - [Inputs](#inputs-4)
+  - [Outputs](#outputs-3)
 - [Check if the local branch is in sync with the remote](#check-if-the-local-branch-is-in-sync-with-the-remote)
 - [Example workflows](#example-workflows)
 
@@ -133,7 +135,7 @@ Same as primary action: `changelog`, `release-type`, `commit-count`, `relevant-c
 
 This action lives under `/last-tag`. Same step as the primary action uses.
 
-##Inputs
+## Inputs
 
 | Key      | Required | Default | Description                                                                      |
 |----------|----------|---------|----------------------------------------------------------------------------------|

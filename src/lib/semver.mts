@@ -38,23 +38,12 @@ class SemVer {
   }
 
   public static async resolveLastRelease(): Promise<SemVer | undefined> {
-    let raw: string;
-    try {
-      raw = await exec(`git tag --list`, `getting last tag`, false);
-    } catch {
-      return; // no tags created yet
-    }
-    if (!raw) {
-      return; // same
-    }
+    const [last] = await SemVer.resolveReleases();
 
-    const semvers = raw.split(/\r?\n/g).map(v => SemVer.parse(v, true));
-    semvers.sort(SemVer.cmp);
+    if (last) {
+      info(`Last tag resolved to ${last}`);
 
-    if (semvers[0]) {
-      info(`Last tag resolved to ${semvers[0]}`);
-
-      return semvers[0];
+      return last;
     }
   }
 
@@ -68,6 +57,32 @@ class SemVer {
     }
 
     return new SemVer(1, 0, 0);
+  }
+
+  /** Newest at the start of the array */
+  public static async resolveReleases(): Promise<SemVer[]> {
+    let raw: string;
+    try {
+      raw = await exec(`git tag --list`, `getting last tag`, false);
+    } catch {
+      return []; // no tags created yet
+    }
+    if (!raw) {
+      return []; // same
+    }
+
+    const semvers = raw.split(/\r?\n/g)
+      .reduce<SemVer[]>((acc, v) => {
+        const parsed = SemVer.parse(v, true);
+        if (parsed) {
+          acc.push(parsed);
+        }
+
+        return acc;
+      }, []);
+    semvers.sort(SemVer.cmp);
+
+    return semvers;
   }
 
   public get minor(): number {

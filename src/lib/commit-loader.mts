@@ -28,7 +28,7 @@ export default class CommitLoader implements IterableWithIterableIterator<OptRea
     if (from) {
       this.#ref = ` ${from}..${until || 'HEAD'}`;
     } else if (until) {
-      this.#ref = ` ${until}^..HEAD`;
+      this.#ref = ` ${until}`;
     } else {
       this.#ref = '';
     }

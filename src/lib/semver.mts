@@ -142,6 +142,18 @@ class SemVer {
     return this;
   }
 
+  public isEqual(other: SemVer): boolean {
+    return SemVer.cmp(this, other) === 0;
+  }
+
+  public isGreaterThan(other: SemVer): boolean {
+    return SemVer.cmp(this, other) === -1;
+  }
+
+  public isLowerThan(other: SemVer): boolean {
+    return SemVer.cmp(this, other) === 1;
+  }
+
   /** Clone & ensure the prefix & all major/minor/patch versions are set */
   public materialise(): SemVer {
     return new SemVer(this.major, this.minor, this.patch);

@@ -133,9 +133,16 @@ Same as primary action: `changelog`, `release-type`, `commit-count`, `relevant-c
 
 This action lives under `/last-tag`. Same step as the primary action uses.
 
-Inputs: none
+##Inputs
 
-Outputs: `last-tag`, if resolved.
+| Key      | Required | Default | Description                                                                      |
+|----------|----------|---------|----------------------------------------------------------------------------------|
+| `before` | :x:      |         | If specified, the last tag must come before this tag sorted by semantic version. |
+| `after`  | :x:      |         | If specified, the last tag must come after this tag sorted by semantic version.  |
+
+## Outputs
+
+`last-tag`, if resolved.
 
 # Resolve the next tag to release
 

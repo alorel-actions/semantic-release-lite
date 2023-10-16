@@ -37,9 +37,9 @@ jobs:
             feat: Features
           patch-types: |
             fix: Bug Fixes
+            deps: Dependency updates
           trivial-types: |
             chore: Maintenance
-            deps: Dependency updates
             ci: CI & Build
             build: CI & Build
             refactor: Refactors

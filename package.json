@@ -29,7 +29,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^6.0.0",
-    "lazy-get-decorator": "^2.2.1",
+    "lazy-get-decorator": "^3.0.0",
     "lodash-es": "^4.17.21"
   }
 }

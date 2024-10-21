@@ -7,6 +7,7 @@ export const enum GenChangelogOutput {
   IssuesClosed = 'issues-closed',
   RelevantCommitCount = 'relevant-commit-count',
   InSync = 'in-sync',
+  NextVersion = 'next-version',
   ShouldRelease = 'should-release',
 }
 

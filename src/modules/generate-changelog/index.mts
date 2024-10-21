@@ -52,6 +52,7 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
   const changelogGen = new ChangelogGenerator(parser, typeInpParser, inputs);
   await changelogGen.generate(inputs['last-tag']);
   output.set(GenChangelogOutput.ReleaseType, changelogGen.nextVersion.computeReleaseType(inputs['last-tag']));
+  output.set(GenChangelogOutput.NextVersion, changelogGen.nextVersion.toString());
   output.set(GenChangelogOutput.Changelog, changelogGen.result);
 
   try {

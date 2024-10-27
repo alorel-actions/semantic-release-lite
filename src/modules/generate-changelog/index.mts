@@ -34,7 +34,11 @@ interface Inputs extends OptPick<CommonConfig, 'breaking-change-keywords' | 'min
   });
   inputs.load();
 
-  const loader = new CommitLoader(inputs['from'], inputs['until']);
+  const loader = new CommitLoader({
+    breakingChangeKeywords: inputs['breaking-change-keywords'],
+    from: inputs.from,
+    until: inputs.until,
+  });
   await loader.load();
 
   const output = new GenChangelogOutputMgr();

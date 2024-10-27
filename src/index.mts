@@ -4,8 +4,8 @@ import CommitLoader from './lib/commit-loader.mjs';
 import CommitParser from './lib/commit-parser.mjs';
 import {CommonConfig, commonConfigInit} from './lib/common-config.mjs';
 import InputMgr from './lib/input-mgr.mjs';
-import OutOfSyncError from './lib/sync-check.mjs';
 import {SemVer} from './lib/semver.mjs';
+import OutOfSyncError from './lib/sync-check.mjs';
 import TypesInputParser from './lib/types-input-parser.mjs';
 import {ReleaseOutputMgr, ReleaseOutputName} from './output-mgr.mjs';
 
@@ -19,7 +19,10 @@ import {ReleaseOutputMgr, ReleaseOutputName} from './output-mgr.mjs';
   const lastTag = await SemVer.resolveLastRelease();
   output.set(ReleaseOutputName.LastTag, lastTag?.toString());
 
-  const loader = new CommitLoader(lastTag);
+  const loader = new CommitLoader({
+    breakingChangeKeywords: inputs['breaking-change-keywords'],
+    from: lastTag,
+  });
   await loader.load();
   output.set(ReleaseOutputName.CommitCount, loader.totalCount);
   output.set(ReleaseOutputName.RelevantCommitCount, loader.relevantCount);

@@ -127,7 +127,7 @@ class CommitParser {
         this.releaseType = CommitParser.ReleaseType.Major;
         tags.push('BREAKING');
         this.#breakingChanges.push({
-          message: meta.extendedMessage!,
+          message: meta.breaking!,
           sha: formattedCommit.sha,
         });
       } else if (this.#cfg['minor-types'].has(formattedCommit.type)) {
@@ -156,28 +156,22 @@ class CommitParser {
 
   /** Convert commit metadata to a formatted, parsed {@link Commit} */
   #metaToCommit(meta: OptReadonly<CommitMetadata>): Commit {
-    let match = `${meta.message} ${meta.extendedMessage ?? ''}`
-      .match(/closes\s+([#\d, ]+)/ig);
+    const out: Commit = {
+      message: meta.message,
+      scope: meta.scope,
+      sha: meta.sha,
+      type: meta.type,
+    };
 
-    if (match) {
-      const issuesClosed = new Set<number>();
-      for (const m of match) {
-        for (const num of m.match(/#\d+/g)!) {
-          issuesClosed.add(Number(num.slice(1)));
-        }
-      }
-
-      (meta as Commit).issuesClosed = issuesClosed;
+    if (meta.closes) {
+      out.issuesClosed = new Set<number>(meta.closes.split(/,\s*/g).map(v => parseInt(v.slice(1))));
     }
 
-    if (
-      meta.extendedMessage
-      && this.#cfg['breaking-change-keywords'].some(kw => meta.extendedMessage!.includes(kw))
-    ) {
-      (meta as Commit).breaking = true;
+    if (meta.breaking) {
+      out.breaking = true;
     }
 
-    return meta;
+    return out;
   }
 }
 

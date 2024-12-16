@@ -15,7 +15,7 @@
   "devDependencies": {
     "@alorel/rollup-plugin-copy": "^2.0.0",
     "@alorel/rollup-plugin-threaded-terser": "^2.0.0",
-    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/lodash-es": "^4.17.12",
